@@ -1,0 +1,7 @@
+[package]
+name = "bonsai-core"
+version = "0.0.0"
+author = "relic"
+edition = "2021"
+
+[dependencies]
