@@ -1,8 +1,10 @@
 use crate::bonsai::candle;
+use crate::bonsai::timeframe;
 
 pub struct Chart {
   pub title: String,
-  pub candles: Vec<candle::Candle>
+  pub candles: Vec<candle::Candle>,
+  pub timeframe: timeframe::Timeframe
 }
 
 impl Default for Chart {
@@ -10,6 +12,7 @@ impl Default for Chart {
     Self {
       title: "Default title".to_string(),
       candles: vec![],
+      timeframe: timeframe::Timeframe::S1
     }
   }
 }
@@ -20,13 +23,13 @@ impl std::string::ToString for Chart {
     for candle in &self.candles {
       display_candle.push_str(&candle.to_string());
     }
-    format!("title: {},\ncandles: {}", self.title, display_candle)
+    format!("title: {} [{}],\ncandles: {}", self.title, self.timeframe.to_string(), display_candle)
   }
 }
 
 impl Chart {
-  pub fn new(title: String) -> Self {
-    return Self {title, candles: vec!() }
+  pub fn new(title: String, timeframe: timeframe::Timeframe) -> Self {
+    return Self {title, candles: vec!(), timeframe }
   }
 
   pub fn add(&mut self, candle: candle::Candle) -> &mut Self {
