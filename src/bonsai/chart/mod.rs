@@ -1,28 +1,46 @@
 use crate::bonsai::candle;
-use std::fmt;
 
 pub struct Chart {
   pub title: String,
-  pub candlesticks: Vec<candle::Candle>
+  pub candles: Vec<candle::Candle>
 }
 
 impl Default for Chart {
   fn default() -> Self {
     Self {
       title: "Default title".to_string(),
-      candlesticks: vec![],
+      candles: vec![],
     }
   }
 }
 
-impl fmt::Display for Chart {
-  fn fmt(&self, f: &mut fmt::Formatter) -> fmt::Result {
-    write!(f, "title: {}", self.title)
+impl std::string::ToString for Chart {
+  fn to_string(&self) -> String {
+    let mut display_candle: String = String::new();
+    for candle in &self.candles {
+      display_candle.push_str(&candle.to_string());
+    }
+    format!("title: {},\ncandles: {}", self.title, display_candle)
   }
 }
 
 impl Chart {
-  pub fn new(title: String, candlesticks: Vec<candle::Candle>) -> Self {
-    return Self {title, candlesticks}
+  pub fn new(title: String) -> Self {
+    return Self {title, candles: vec!() }
+  }
+
+  pub fn add(&mut self, candle: candle::Candle) -> &mut Self {
+    self.candles.push(candle);
+    self
+  }
+
+  pub fn add_bulk(&mut self, candles: Vec<candle::Candle> ) -> &mut Self {
+
+    // candles.iter() returns &Candle
+    for candle in candles {
+      self.add(candle);
+    }
+
+    self
   }
 }

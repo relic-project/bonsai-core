@@ -1,5 +1,3 @@
-use std::fmt;
-
 pub struct Candle {
   pub open: f64,
   pub close: f64,
@@ -18,9 +16,9 @@ impl Default for Candle {
   }
 }
 
-impl fmt::Display for Candle {
-  fn fmt(&self, f: &mut fmt::Formatter) -> fmt::Result {
-    write!(f, "open: {}, close: {}, min: {}, max: {}", self.open, self.close, self.min, self.max)
+impl std::string::ToString for Candle {
+  fn to_string(&self) -> String {
+    format!("\nopen: {}, close: {}, min: {}, max: {}", self.open, self.close, self.min, self.max)
   }
 }
 
@@ -35,10 +33,10 @@ impl Candle {
 
     // CHECK INTEGRITY
     if min > lowest{
-      panic!("min value cannot be higher than lowest value");
+      panic!("min {} value cannot be higher than lowest {} value", min, lowest);
     }
     if max < highest {
-      panic!("max value cannot be lower than highest value");
+      panic!("max {} value cannot be lower than highest {} value", max, highest);
     }
 
     return Self {close, open, min, max}
